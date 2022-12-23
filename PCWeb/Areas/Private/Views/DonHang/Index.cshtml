@@ -1,0 +1,107 @@
+﻿
+@using PCWeb.Models;
+
+@model PCWeb.Models.AllDonHang
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Private/Views/Layout/_LayoutAdmin.cshtml";
+    List<AllDonHang> dh = ViewData["DsDH"] as List<AllDonHang>;
+}
+
+
+<div class="card-body row">
+    <div class="col-lg-8">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+
+                    <th>Ma Don Hang</th>
+                    <th>Ngay dat</th>
+                    <th>Ma Nguoi Dung</th>
+                    <th>Ma San Pham</th>
+                    <th>Don Gia</th>
+                    <th>So Luong</th>
+                    <th>Tinh Trang</th>
+                    <th>Thanh Tien</th>
+                    <th>Lenh</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AllDonHang i in dh)
+                {
+                    <tr>
+                        <td>@i.maDon</td>
+                        <td>@i.ngayDat</td>
+                        <td>@i.maNguoiDung</td>
+                        <td>@i.maSP</td>
+                        <td>@i.donGia</td>
+                        <td>@i.soLuong</td>
+                        <td>@i.TinhTrang</td>
+                        <td>@i.ThanhTien</td>
+                        <td>
+                            @using (Html.BeginForm("delete", "DonHang", FormMethod.Post))
+                            {
+                                <input type="hidden" name="x" value="@i.maDon" />
+                                <button type="submit" class="btn btn-block btn-danger">Delete</button>
+                            }
+                            @using (Html.BeginForm("update", "DonHang", FormMethod.Post))
+                            {
+                                <input type="hidden" name="maloai" value="@i.maDon" />
+                                <button type="submit" class="btn btn-block btn-default">Edit</button>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+    <div class="col-lg-4">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thong Tin</h3>
+            </div>
+
+            @using (Html.BeginForm("Index", "DonHang", FormMethod.Post))
+            {
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="1">Ma Don</label>
+                        @Html.TextBoxFor(m => m.maDon, new { @class = "form-control", @id = "1", @required = true, @placeholder = "Ma Loai ( Required )" })
+                    </div>
+                    <div class="form-group">
+                        <label for="2">Ma Nguoi Dung</label>
+
+                        @Html.TextBoxFor(m => m.maNguoiDung, new { @class = "form-control", @id = "2", @required = true, @placeholder = "Ma Nguoi Dung ( Required )" })
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="3">Ma San Pham</label>
+
+                        @Html.TextBoxFor(m => m.maSP, new { @class = "form-control", @id = "3", @required = true, @placeholder = " Ma San Pham ( Required )" })
+                    </div>
+                    <div class="form-group">
+                        <label for="4">So Luong</label>
+                        @Html.TextBoxFor(m => m.soLuong, new { @class = "form-control", @id = "4", @type = "number", @placeholder = "So Luong" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.ngayDat, new { @value = DateTime.Now, @type = "hidden"})
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+        
+    
+    
+</div>

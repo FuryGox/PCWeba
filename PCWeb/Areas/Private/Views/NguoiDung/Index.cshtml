@@ -1,0 +1,96 @@
+﻿@using PCWeb.Models;
+@model PCWeb.Models.Nguoidung
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Private/Views/Layout/_LayoutAdmin.cshtml";
+    List<Nguoidung> nguoidungs = ViewData["DsNguoidung"] as List<Nguoidung>;
+}
+
+<!-- /.card-header -->
+<div class="card-body row">
+    <div class="col-lg-6">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+
+                    <th>Ma San Pham</th>
+                    <th>Ten San Pham</th>
+                    <th>Gia Tien</th>
+                    <th>So Luong</th>
+                    <th>Lenh</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Nguoidung i in nguoidungs)
+                {
+                    <tr>
+                        <td>@i.MaNguoiDung</td>
+                        <td>@i.Hoten</td>
+                        <td>@i.Email</td>
+                        <td>@i.Dienthoai</td>
+                        <td>@i.IDQuyen</td>
+                        <td>
+                            @using (Html.BeginForm("delete", "NguoiDung", FormMethod.Post))
+                            {
+                                <input type="hidden" name="x" value="@i.MaNguoiDung" />
+                                <button type="submit" class="btn btn-block btn-danger">Delete</button>
+                            }
+                            @using (Html.BeginForm("update", "NguoiDung", FormMethod.Post))
+                            {
+                                <input type="hidden" name="maloai" value="@i.MaNguoiDung" />
+                                <button type="submit" class="btn btn-block btn-default">Edit</button>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thong Tin</h3>
+            </div>
+            @using (Html.BeginForm("Index", "NguoiDung", FormMethod.Post))
+            {
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.MaNguoiDung, new { @class = "form-control", @id = "max", @required = true, @type = "hidden", @placeholder = "Ma Loai ( Required )" })
+                    </div>
+                    <div class="form-group">
+                        <label for="HT">Ho va Ten</label>
+
+                        @Html.TextBoxFor(m => m.Hoten, new { @class = "form-control", @id = "HT", @required = true, @placeholder = "Ho va Ten" })
+                    </div>
+                    <div class="form-group">
+                        <label for="mail">Email</label>
+
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "mail", @id = "mail", @required = true, @placeholder = " Email " })
+                    </div>
+                    <div class="form-group">
+                        <label for="mk">Mat Khau</label>
+
+                        @Html.TextBoxFor(m => m.Matkhau, new { @class = "form-control", @id = "HT", @required = true, @placeholder = "Mat Khau" })
+                    </div>
+                    <div class="form-group">
+                        <label for="Dt">So Dien Thoai</label>
+
+                        @Html.TextBoxFor(m => m.Dienthoai, new { @class = "form-control", @id = "Dt", @placeholder = "So Dien Thoai" })
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

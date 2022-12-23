@@ -1,0 +1,76 @@
+﻿@using PCWeb.Models;
+@model PCWeb.Models.Hangsanxuat
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Private/Views/Layout/_LayoutAdmin.cshtml";
+    List<Hangsanxuat> Hangsanxuats = ViewData["DsHangsanxuat"] as List<Hangsanxuat>;
+}
+
+<!-- /.card-header -->
+<div class="card-body row">
+    <div class="col-lg-6">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+
+                    <th>Ma San Pham</th>
+                    <th>Ten San Pham</th>
+                    <th>Lenh</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Hangsanxuat i in Hangsanxuats)
+                {
+                    <tr>
+                        <td>@i.Mahang</td>
+                        <td>@i.Tenhang</td>
+                        
+                        <td>
+                            @using (Html.BeginForm("delete", "HangSX", FormMethod.Post))
+                            {
+                                <input type="hidden" name="x" value="@i.Mahang" />
+                                <button type="submit" class="btn btn-block btn-danger">Delete</button>
+                            }
+                            @using (Html.BeginForm("update", "HangSX", FormMethod.Post))
+                            {
+                                <input type="hidden" name="maloai" value="@i.Mahang" />
+                                <button type="submit" class="btn btn-block btn-default">Edit</button>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+    <div class="col-lg-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thong Tin</h3>
+            </div>
+            @using (Html.BeginForm("Index", "HangSX", FormMethod.Post))
+            {
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Mahang, new { @class = "form-control", @id = "max", @required = true, @type = "hidden", @placeholder = "Ma Loai ( Required )" })
+                    </div>
+                    <div class="form-group">
+                        <label for="HT">Ten Hang</label>
+
+                        @Html.TextBoxFor(m => m.Tenhang, new { @class = "form-control", @id = "HT", @required = true, @placeholder = "Ten Hang" })
+                    </div>
+                    
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
