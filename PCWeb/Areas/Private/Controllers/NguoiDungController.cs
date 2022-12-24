@@ -1,6 +1,7 @@
 ﻿using PCWeb.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +38,9 @@ namespace PCWeb.Areas.Private.Controllers
                 y.Dienthoai = x.Dienthoai;
                 y.Hoten = x.Hoten;
                 y.Email = x.Email;
-                
+                y.IDQuyen = x.IDQuyen;
+                y.Matkhau= x.Matkhau;
+
             }
             db.SaveChanges();
             //update data
@@ -56,8 +59,8 @@ namespace PCWeb.Areas.Private.Controllers
             try
             {
 
-                Nguoidung sp = db.Nguoidungs.Where(m => m.MaNguoiDung == id).FirstOrDefault();
-                db.Nguoidungs.Remove(sp);
+                Nguoidung nd = db.Nguoidungs.Where(m => m.MaNguoiDung == id).First();
+                db.Nguoidungs.Remove(nd);
                 db.SaveChanges();
                 ViewData["DsNguoidung"] = db.Nguoidungs.ToList<Nguoidung>();
                 return View("Index");
@@ -69,11 +72,11 @@ namespace PCWeb.Areas.Private.Controllers
             }
         }
         [HttpPost]
-        public ActionResult update(String maloai)
+        public ActionResult update(String mand)
         {
             try
             {
-                int x = Convert.ToInt32(maloai);
+                int x = Convert.ToInt32(mand);
                 isEdit = true;
                 ViewData["DsNguoidung"] = db.Nguoidungs.ToList<Nguoidung>();
                 return View("Index", db.Nguoidungs.Where(m => m.MaNguoiDung == x).FirstOrDefault());

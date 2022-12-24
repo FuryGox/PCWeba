@@ -97,7 +97,7 @@ namespace PCWeb.Areas.Private.Controllers
         {
             try
             {
-                int x = Convert.ToInt32(maloai);
+                int x = Convert.ToInt32(madon);
                 isEdit = true;
                 List<AllDonHang> l = Common.GetToanDonHang();
                 ViewData["DsDH"] = l;
@@ -106,10 +106,29 @@ namespace PCWeb.Areas.Private.Controllers
             }
             catch (Exception ex)
             {
-                return View();
+                return View("Index");
             }
         }
+        [HttpPost]
+        public ActionResult commit(String madon)
+        {
+            try
+            {
+                int x = Convert.ToInt32(madon);
+                List<AllDonHang> l = Common.GetToanDonHang();
+                Donhang s =db.Donhangs.Find(x);
+                s.Tinhtrang = 1;
+                db.SaveChanges();
+                ViewData["DsDH"] = l;
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["DsDH"] = Common.GetToanDonHang();
+                return View("Index");
+            }
+        }
+        
 
-       
     }
 }

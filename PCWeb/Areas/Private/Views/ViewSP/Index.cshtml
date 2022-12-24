@@ -6,6 +6,7 @@
     Layout = "~/Areas/Private/Views/Layout/_LayoutAdmin.cshtml";
     List<Sanpham> sanphams = ViewData["DsSanpham"] as List<Sanpham>;
     IEnumerable<Hangsanxuat> d = ViewData["DsHSX"] as IEnumerable<Hangsanxuat>;
+    string ab = ViewData["ab"].ToString();
 }
 
 <!-- /.card-header -->
@@ -56,51 +57,48 @@
             <div class="card-header">
                 <h3 class="card-title">Thong Tin</h3>
             </div>
-            @using (Html.BeginForm("Index", "ViewSP", FormMethod.Post))
+            @using (Html.BeginForm("Index", "ViewSP", FormMethod.Post, new { enctype = "multipart/form-data" } ))
             {
                 <div class="card-body">
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.Masp, new { @class = "form-control", @id = "maloai", @required = true, @type = "hidden", @placeholder = "Ma Loai ( Required )" })
+                        @Html.TextBoxFor(m => m.Masp, new { @class = "form-control", @id = "ma", @required = true, @type = "hidden", @placeholder = "Ma Loai ( Required )" })
                     </div>
                     <div class="form-group">
-                        <label for="tenloai">Ten San Pham</label>
+                        <label for="ten">Ten San Pham</label>
 
-                        @Html.TextBoxFor(m => m.Tensp, new { @class = "form-control", @id = "tenloai", @required = true, @placeholder = "Ten Loai ( Required )" })
+                        @Html.TextBoxFor(m => m.Tensp, new { @class = "form-control", @id = "ten", @required = true, @placeholder = "Ten Loai ( Required )" })
                     </div>
                     <div class="form-group">
-                        <label for="thuocLoai">Gia Tien</label>
+                        <label for="gt">Gia Tien</label>
 
-                        @Html.TextBoxFor(m => m.Giatien, new { @class = "form-control", @id = "thuocLoai", @required = true, @placeholder = " 0 ( Required )" })
+                        @Html.TextBoxFor(m => m.Giatien, new { @class = "form-control", @id = "gt", @required = true, @placeholder = " Gia Tien ( Required )" })
                     </div>
                     <div class="form-group">
-                        <label for="ghiChu">So Luong</label>
+                        <label for="sl">So Luong</label>
 
-                        @Html.TextBoxFor(m => m.Soluong, new { @class = "form-control", @id = "ghiChu", @placeholder = "Ghi chu ( not Required )" })
+                        @Html.TextBoxFor(m => m.Soluong, new { @class = "form-control", @id = "sl", @placeholder = "So Luong" })
                     </div>
                     <div class="form-group">
-                        <label>Mo Ta</label>
+                        <label for="mt">Mo Ta</label>
+                        @Html.TextAreaFor(m => m.Mota, new { @class = "form-control", @id = "mt", @placeholder = "Mo ta " })
                     </div>
                     <div class="form-group">
-                        <label>Hang</label>
-                        @Html.DropDownListFor(m => m.Mahang, Dropdown.GetAllHSXCategories())
+                        <label for="mh">Hang</label>
+                        @Html.DropDownListFor(m => m.Mahang, Dropdown.GetAllHSXCategories() , new { @class = "form-control", @id = "mh" })
                     </div>
-
+                    <div class="form-group">
+                        <img src="@Path.Combine(Server.MapPath("~/Anhbia/"),ab )" height="50" width="50" class="center-block form-control" alt="Khong Load Duoc Hinh (Co the do bi chan hoac khong co hinh)"/>
+                        <label for="ha">Chon Hinh (Vui long chon anh co ten nho hon 10 ky tu) </label><br />
+                        @Html.TextBox("file", "", new { type = "file", @id="ha" })
+                    </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
                 </div>
             }
-            @using (Html.BeginForm("UploadFile", "ViewSP", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-            <div>
-                <img src="@Path.Combine(Server.MapPath("~/Anhbia/"), sanphams.Select(m => m.Anhbia).Where(m => m.m)" />
-                @Html.TextBox("file", "", new { type = "file" }) <br />
-                <input type="submit" value="Upload" />
-                @ViewBag.Message
-            </div>
-            }
+            
         </div>
     </div>
 </div>

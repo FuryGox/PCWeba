@@ -13,10 +13,11 @@
             <thead>
                 <tr>
 
-                    <th>Ma San Pham</th>
-                    <th>Ten San Pham</th>
-                    <th>Gia Tien</th>
-                    <th>So Luong</th>
+                    <th>Ma Nguoi Dung</th>
+                    <th>Ho va Ten</th>
+                    <th>Email</th>
+                    <th>So Dien Thoai</th>
+                    <th>Phan Loai</th>
                     <th>Lenh</th>
                 </tr>
             </thead>
@@ -37,7 +38,7 @@
                             }
                             @using (Html.BeginForm("update", "NguoiDung", FormMethod.Post))
                             {
-                                <input type="hidden" name="maloai" value="@i.MaNguoiDung" />
+                                <input type="hidden" name="mand" value="@i.MaNguoiDung" />
                                 <button type="submit" class="btn btn-block btn-default">Edit</button>
                             }
                         </td>
@@ -78,10 +79,12 @@
                     </div>
                     <div class="form-group">
                         <label for="Dt">So Dien Thoai</label>
-
                         @Html.TextBoxFor(m => m.Dienthoai, new { @class = "form-control", @id = "Dt", @placeholder = "So Dien Thoai" })
                     </div>
-
+                    <div class="form-group">
+                        <label></label>
+                        @Html.TextBoxFor(m => m.IDQuyen, new { @class="form-control", @id="qu", @placeholder=" Quyen Han" , @type="number"})
+                    </div>
                 </div>
                 <!-- /.card-body -->
 

@@ -26,7 +26,8 @@ namespace PCWeb.Areas.Private.Controllers
             ViewData["DsSanpham"] = l;
             IEnumerable<Hangsanxuat> h = db.Hangsanxuats.AsEnumerable<Hangsanxuat>();
             ViewData["DsHSX"] = h;
-
+            string ab="";
+            ViewData["ab"] = ab;
             return View();
         }
         [HttpPost]
@@ -51,9 +52,31 @@ namespace PCWeb.Areas.Private.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Sanpham x) {
-            
-            if(!isEdit) db.Sanphams.Add(x);
+        public ActionResult Index(Sanpham x, HttpPostedFileBase file) {
+            bool key = false;
+            try
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    key = true;
+                    string _FileName = Path.GetFileName(file.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Anhbia/"), _FileName);
+
+                    file.SaveAs(_path);
+                }
+                ViewBag.Message = "File Uploaded Successfully!!";
+
+            }
+            catch
+            {
+                ViewBag.Message = "File upload failed!!";
+                return RedirectToAction("Index", "ViewSP");
+            }
+            string anhbia = file.FileName;
+            if (!isEdit) {
+                x.Anhbia= anhbia;
+                db.Sanphams.Add(x);
+            }
             else
             {
                 //Submit if isEdit
@@ -62,10 +85,11 @@ namespace PCWeb.Areas.Private.Controllers
                 y.Tensp = x.Tensp;
                 y.Giatien = x.Giatien;
                 y.Mahang = x.Mahang;
-                y.Anhbia = x.Anhbia;
+                y.Anhbia = anhbia;
                 isEdit = false;
                 
             }
+            
             db.SaveChanges();
             //update data
             if (ModelState.IsValid)
@@ -74,7 +98,7 @@ namespace PCWeb.Areas.Private.Controllers
             }
             List<Sanpham> l = db.Sanphams.OrderBy(m => m.Masp).ToList<Sanpham>();
             ViewData["DsSanpham"] = l;
-            return View();
+            return RedirectToAction("Index", "ViewSP");
         }
         
 
@@ -104,6 +128,7 @@ namespace PCWeb.Areas.Private.Controllers
                 int x = Convert.ToInt32(maloai);
                 isEdit= true;
                 ViewData["DsSanpham"] = db.Sanphams.ToList<Sanpham>();
+                ViewData["ab"] = db.Sanphams.Where(m => m.Masp == x).Select(m => m.Anhbia).First() ?? "none.png";
                 return View("Index",db.Sanphams.Where(m => m.Masp == x).FirstOrDefault());
             }
             catch(Exception ex)

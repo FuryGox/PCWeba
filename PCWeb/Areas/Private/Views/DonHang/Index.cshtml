@@ -50,6 +50,11 @@
                                 <input type="hidden" name="maloai" value="@i.maDon" />
                                 <button type="submit" class="btn btn-block btn-default">Edit</button>
                             }
+                            @using (Html.BeginForm("commit", "DonHang", FormMethod.Post))
+                            {
+                                <input type="hidden" name="madon" value="@i.maDon" />
+                                <button type="submit" class="btn btn-block btn-default">Duyet Don</button>
+                            }
                         </td>
                     </tr>
                 }
@@ -82,7 +87,6 @@
 
                     <div class="form-group">
                         <label for="3">Ma San Pham</label>
-
                         @Html.TextBoxFor(m => m.maSP, new { @class = "form-control", @id = "3", @required = true, @placeholder = " Ma San Pham ( Required )" })
                     </div>
                     <div class="form-group">
