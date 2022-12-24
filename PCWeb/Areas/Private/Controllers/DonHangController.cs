@@ -34,7 +34,6 @@ namespace PCWeb.Areas.Private.Controllers
                 k.Madon = x.maDon;
                 k.MaNguoidung = x.maNguoiDung;
                 k.Ngaydat = DateTime.Now;
-                k.Tinhtrang = x.TinhTrang;
                 db.Donhangs.Add(k);
                 Chitietdonhang ct = new Chitietdonhang();
                 ct.Madon = x.maDon;
@@ -94,7 +93,7 @@ namespace PCWeb.Areas.Private.Controllers
             }
         }
         [HttpPost]
-        public ActionResult update(String maloai)
+        public ActionResult update(String madon)
         {
             try
             {

@@ -38,8 +38,6 @@ namespace PCWeb.Areas.Private.Controllers
                 y.Hoten = x.Hoten;
                 y.Email = x.Email;
                 
-                
-
             }
             db.SaveChanges();
             //update data
